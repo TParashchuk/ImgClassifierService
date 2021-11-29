@@ -1,0 +1,19 @@
+FROM ubuntu:20.04 
+ENV DEBIAN_FRONTEND noninteractive
+
+WORKDIR /color-service
+
+RUN apt-get update -y
+RUN apt-get install -y python3
+RUN apt-get install -y python3-pip
+RUN apt-get install -y python3-opencv
+
+COPY requirements.txt requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+ADD services.sh /color-service
+#ADD lightningsail-620a350de5ba.json /color-service
+ADD Runner.py /color-service
+ADD ImageColorsClassificationApplication.py /color-service
+
+CMD bash /color-service/services.sh

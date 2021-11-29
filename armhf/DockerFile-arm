@@ -1,0 +1,26 @@
+FROM arm32v7/debian:buster
+ENV DEBIAN_FRONTEND noninteractive
+
+WORKDIR /color-classifier-service
+
+RUN apt-get update -y
+RUN apt-get install -y python3
+RUN apt-get install -y python3-pip
+RUN apt-get install -y python3-opencv
+RUN apt-get install gfortran libopenblas-dev liblapack-dev
+RUN pip3 install scikit-learn
+RUN apt-get install -y python3-matplotlib
+
+RUN pip3 install pandas
+RUN pip3 install joblib
+RUN pip3 install tqdm
+RUN pip3 install kafka-python
+RUN pip3 install google-cloud
+RUN pip3 install google-auth
+RUN pip3 install google-cloud-storage
+
+ADD services.sh /color-classifier-service
+ADD Runner.py /color-classifier-service
+ADD ImageColorsClassificationApplication.py /color-classifier-service
+
+CMD bash /color-classifier-service/services.sh
